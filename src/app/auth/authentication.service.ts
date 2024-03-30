@@ -19,9 +19,6 @@ export interface LoginContext {
   providedIn: 'root',
 })
 export class AuthenticationService {
-  MSJ_SUCCESS = 'S';
-  MSJ_ERROR = 'E';
-
   constructor(
     private router: Router,
     private route: ActivatedRoute,

@@ -3,6 +3,7 @@ import { finalize } from 'rxjs/operators';
 
 import { QuoteService } from './quote.service';
 import { AuthenticationService } from '@app/auth';
+import { HomeService } from './home.service';
 
 @Component({
   selector: 'app-home',
@@ -19,7 +20,11 @@ export class HomeComponent implements OnInit {
   multipleFive: { valor: number; color: string }[] = [];
   multipleSeven: { valor: number; color: string }[] = [];
 
-  constructor(private quoteService: QuoteService, private authenticationService: AuthenticationService) {}
+  constructor(
+    private quoteService: QuoteService,
+    private authenticationService: AuthenticationService,
+    private homeService: HomeService
+  ) {}
 
   ngOnInit() {
     this.isLoading = true;
@@ -40,7 +45,6 @@ export class HomeComponent implements OnInit {
   }
 
   obtain() {
-    console.log('Input value:', this.inputValue);
     this.notMultiples = [];
     this.multipleTree = [];
     this.multipleFive = [];
@@ -60,6 +64,18 @@ export class HomeComponent implements OnInit {
           this.multipleSeven.push({ valor: i, color: 'blue' });
         }
       }
+      this.saveDataCollections();
     }
+  }
+
+  saveDataCollections() {
+    const data = {
+      notMultiples: this.notMultiples.map((item) => item.valor),
+      multipleTree: this.multipleTree.map((item) => item.valor),
+      multipleFive: this.multipleFive.map((item) => item.valor),
+      multipleSeven: this.multipleSeven.map((item) => item.valor),
+      numberEntered: this.inputValue || 0,
+    };
+    this.homeService.saveDataCollections(data);
   }
 }
